@@ -1,14 +1,14 @@
-# Use a lightweight image like Alpine if you're just serving static files
-FROM nginx:alpine
+# backend/Dockerfile
+FROM node:18
 
-# Set the working directory
-WORKDIR /usr/share/nginx/html
+WORKDIR /app
 
-# Copy the JSON files into the image
-COPY db.json index.json ./
+COPY package*.json ./
 
-# Expose the port
-EXPOSE 80
+RUN npm install
 
-# Run nginx
-CMD ["nginx", "-g", "daemon off;"]
+COPY . .
+
+EXPOSE 3000
+
+CMD ["node", "app.js"]
